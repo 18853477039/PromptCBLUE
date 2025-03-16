@@ -1,8 +1,8 @@
 PRE_SEQ_LEN=128
 LR=2e-2
-your_data_path="./datasets/PromptCBLUE/toy_examples/"  # 填入数据集所在的文件夹路径
-your_checkpopint_path="./experiments/outputs/"  # 填入用来存储模型的路径
-model_name_or_path="./models--THUDM--chatglm-6b/snapshots/a8ede826cf1b62bd3c78bdfb3625c7c5d2048fbd"   # LLM底座模型路径，或者是huggingface hub上的模型名称
+your_data_path="/root/PromptCBLUE/datasets/PromptCBLUE/trains/"  # 填入数据集所在的文件夹路径
+your_checkpoint_path="/root/autodl-fs/data2/models/PromptCBLUE/"  # 填入用来存储模型的路径
+model_name_or_path="/root/autodl-fs/data2/root/.cache/modelscope/hub/models--THUDM--visualglm-6b/snapshots/a05d5f967eb67d2503fb8ccab6b5e01713305184"   # LLM底座模型路径，或者是huggingface hub上的模型名称
 
 
 CUDA_VISIBLE_DEVICES=1 python src/ft_chatglm_ptuning/main.py \
@@ -13,7 +13,7 @@ CUDA_VISIBLE_DEVICES=1 python src/ft_chatglm_ptuning/main.py \
     --response_column target \
     --overwrite_cache \
     --model_name_or_path $model_name_or_path \
-    --output_dir $your_checkpopint_path/PromptCBLUE-chatglm-6b-pt-$PRE_SEQ_LEN-$LR \
+    --output_dir $your_checkpoint_path/PromptCBLUE-chatglm-6b-pt-$PRE_SEQ_LEN-$LR \
     --overwrite_output_dir \
     --max_source_length 700 \
     --max_target_length 196 \

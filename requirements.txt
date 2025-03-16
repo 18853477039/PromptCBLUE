@@ -8,3 +8,4 @@ sentencepiece
 torch
 tqdm
 transformers
+deepspeed
