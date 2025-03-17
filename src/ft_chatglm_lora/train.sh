@@ -9,7 +9,7 @@ your_checkpopint_path="./experiments/outputs/"  # 填入用来存储模型的路
 
 peft_path=""  # 如果之前训练过，且存储了peft权重，则设置为peft权重的文件夹路径
 
-CUDA_VISIBLE_DEVICES=1 python src/ft_chatglm_lora/main.py \
+CUDA_VISIBLE_DEVICES=0 python src/ft_chatglm_lora/main.py \
     --do_train \
     --train_file $your_data_path/train.json \
     --validation_file $your_data_path/dev.json \

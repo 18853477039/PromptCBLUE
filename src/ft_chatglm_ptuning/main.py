@@ -110,7 +110,7 @@ def main():
         "json",
         data_files=data_files,
         cache_dir=model_args.cache_dir,
-        use_auth_token=True if model_args.use_auth_token else None,
+        # use_auth_token=True if model_args.use_auth_token else None,
     )
     # print("raw_datasets: ", raw_datasets)
 
@@ -371,7 +371,10 @@ def main():
             "rouge-l": [],
             "bleu-4": []
         }
+        error_nums = 0
         for pred, label in zip(decoded_preds, decoded_labels):
+            if not pred or not label:
+                continue
             hypothesis = list(jieba.cut(pred))
             reference = list(jieba.cut(label))
             rouge = Rouge()
@@ -379,7 +382,14 @@ def main():
             hypothesis = ' '.join(hypothesis)
             if not hypothesis:
                 hypothesis = "-"
-            scores = rouge.get_scores(hypothesis, ' '.join(reference))
+            try:
+                scores = rouge.get_scores(hypothesis, ' '.join(reference))
+            except Exception as e:
+                logger.error(e, exc_info=True)
+                logger.info(f"hypothesis: {hypothesis}")
+                logger.info(f"reference: {reference}")
+                error_nums += 1
+                continue
             result = scores[0]
             
             for k, v in result.items():
@@ -387,6 +397,7 @@ def main():
             bleu_score = sentence_bleu([list(label)], list(pred), smoothing_function=SmoothingFunction().method3)
             score_dict["bleu-4"].append(round(bleu_score * 100, 4))
 
+        logger.warning(f"error_nums: {error_nums}")
         for k, v in score_dict.items():
             score_dict[k] = float(np.mean(v))
         return score_dict
