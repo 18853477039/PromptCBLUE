@@ -20,7 +20,9 @@ CUDA_VISIBLE_DEVICES=0 python src/ft_chatglm_ptuning/main.py \
     --overwrite_output_dir \
     --max_source_length 700 \
     --max_target_length 196 \
-    --per_device_eval_batch_size 1 \
+    --per_device_eval_batch_size 4 \
     --predict_with_generate \
     --pre_seq_len $PRE_SEQ_LEN \
-    --fp16
+    --fp16 \
+    --preprocessing_num_workers 4 \
+    --report_to wandb

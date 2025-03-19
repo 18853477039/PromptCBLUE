@@ -25,7 +25,7 @@ import json
 
 import numpy as np
 from datasets import load_dataset
-import jieba 
+import jieba
 from rouge_chinese import Rouge
 from nltk.translate.bleu_score import sentence_bleu, SmoothingFunction
 import torch
@@ -56,8 +56,8 @@ from src.ft_chatglm_ptuning.arguments import ModelArguments, DataTrainingArgumen
 
 logger = logging.getLogger(__name__)
 
-def main():
 
+def main():
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
         # If we pass only one argument to the script and it's the path to a json file,
@@ -183,6 +183,7 @@ def main():
     # We need to tokenize inputs and targets.
     if training_args.do_train:
         column_names = raw_datasets["train"].column_names
+        logger.info("column_names: ", column_names)
     elif training_args.do_eval:
         column_names = raw_datasets["validation"].column_names
     elif training_args.do_predict:
@@ -195,7 +196,7 @@ def main():
     prompt_column = data_args.prompt_column
     response_column = data_args.response_column
     history_column = data_args.history_column
-    
+
     # Temporarily set max_target_length for training.
     max_target_length = data_args.max_target_length
 
@@ -268,8 +269,8 @@ def main():
 
                 context_length = input_ids.index(tokenizer.bos_token_id)
                 mask_position = context_length - 1
-                labels = [-100] * context_length + input_ids[mask_position+1:]
-                
+                labels = [-100] * context_length + input_ids[mask_position + 1:]
+
                 pad_len = max_seq_length - len(input_ids)
                 input_ids = input_ids + [tokenizer.pad_token_id] * pad_len
                 labels = labels + [tokenizer.pad_token_id] * pad_len
@@ -283,9 +284,9 @@ def main():
                 model_inputs["labels"].append(labels)
 
         return model_inputs
-    
+
     def print_dataset_example(example):
-        print("input_ids",example["input_ids"])
+        print("input_ids", example["input_ids"])
         print("inputs", tokenizer.decode(example["input_ids"]))
         print("label_ids", example["labels"])
         print("labels", tokenizer.decode(example["labels"]))
@@ -305,6 +306,7 @@ def main():
                 remove_columns=column_names,
                 load_from_cache_file=False,
                 desc="Running tokenizer on train dataset",
+                cache_file_name=f"{model_args.cache_dir}/cached_train_tokenized_data.cache",
             )
         print_dataset_example(train_dataset[0])
         print_dataset_example(train_dataset[1])
@@ -391,7 +393,7 @@ def main():
                 error_nums += 1
                 continue
             result = scores[0]
-            
+
             for k, v in result.items():
                 score_dict[k].append(round(v["f"] * 100, 4))
             bleu_score = sentence_bleu([list(label)], list(pred), smoothing_function=SmoothingFunction().method3)
