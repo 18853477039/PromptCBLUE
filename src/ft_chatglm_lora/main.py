@@ -339,7 +339,7 @@ def main():
         model=model,
         label_pad_token_id=label_pad_token_id,
         pad_to_multiple_of=None,
-        padding=False
+        padding=False if training_args.do_train else True
     )
 
     # Metric

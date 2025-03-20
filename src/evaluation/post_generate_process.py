@@ -151,7 +151,11 @@ def process_generated_results(pred_file):
                         continue
 
                     # print("ans_str: ", ans_str)
-                    head_ent = ans_str.split("头实体：")[1].split("；尾实体：")[0]
+                    try:
+                        head_ent = ans_str.split("头实体：")[1].split("；尾实体：")[0]
+                    except Exception as e:
+                        print(e)
+                        continue
                     if rel != "条件关系":
                         tail_ent = ans_str.split("；尾实体：")[1]
                         triple = {
@@ -201,7 +205,10 @@ def process_generated_results(pred_file):
                     if not ans_str:
                         continue
 
-                    role = ans_str.split("：role=")[1].split("；logical_rel=")[0]
+                    try:
+                        role = ans_str.split("：role=")[1].split("；logical_rel=")[0]
+                    except Exception as e:
+                        role = "null"
                     print(ans_str)
 
                     try:

@@ -73,6 +73,9 @@ def calc_scores(dict_gt, dict_pred, out_path):
         "Text2DT": {},
         "CMedCausal": {},
     }
+    # scores = {
+    #     "CHIP-MDCFNPC-Micro-F1": {},
+    # }
 
     success_flag = 1
 
@@ -434,6 +437,7 @@ if __name__ == "__main__":
 
     in_param_path = sys.argv[1]
     out_path = sys.argv[2]
+    # out_path = '/Users/jishoukai/PycharmProjects/PromptCBLUEOLD/datasets/PromptCBLUE/PromptCBLUE/IMCS-V2-DAC/eval_result.json'
 
     # read submit and answer file from first parameter
     with open(in_param_path, 'r') as load_f:
@@ -441,10 +445,12 @@ if __name__ == "__main__":
 
     # 标准答案路径
     standard_path = input_params["fileData"]["standardFilePath"]
+    # standard_path = '/Users/jishoukai/PycharmProjects/PromptCBLUEOLD/datasets/PromptCBLUE/PromptCBLUE/IMCS-V2-DAC/dev_structured.json'
     print("Read standard from %s" % standard_path)
 
     # 选手提交的结果文件路径
     submit_path = input_params["fileData"]["userFilePath"]
+    # submit_path = '/Users/jishoukai/PycharmProjects/PromptCBLUEOLD/datasets/PromptCBLUE/PromptCBLUE/IMCS-V2-DAC/results.json'
     print("Read user submit file from %s" % submit_path)
 
     # # 检查是否有三个文件：test.json, test_structured.json, post_generate_process.py
