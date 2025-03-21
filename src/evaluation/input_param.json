@@ -3,8 +3,8 @@
     "evaluatorDir":"",
     "evaluatorPath":"",
     "standardFileDir":"",
-    "standardFilePath":"dev_structured.json",
+    "standardFilePath":"/Users/jishoukai/PycharmProjects/PromptCBLUEOLD/datasets/PromptCBLUE/PromptCBLUE/PromptCBLUE-ChatGLM-6b-lora-2e-4/dev_structured.json",
     "userFileDir":"",
-    "userFilePath":"results.json"
+    "userFilePath":"/Users/jishoukai/PycharmProjects/PromptCBLUEOLD/datasets/PromptCBLUE/PromptCBLUE/PromptCBLUE-ChatGLM-6b-lora-2e-4/dev_results.json"
   }
 }

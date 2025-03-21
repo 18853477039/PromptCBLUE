@@ -7,8 +7,8 @@ model_name_or_path="/root/autodl-fs/data2/root/.cache/modelscope/hub/models--THU
 your_data_path="./datasets/PromptCBLUE/trains"  # 填入数据集所在的文件夹路径
 your_checkpoint_path="/root/autodl-fs/data2/models/ChatGLM/"  # 填入用来存储模型的路径
 
-peft_path=""  # 如果之前训练过，且存储了peft权重，则设置为peft权重的文件夹路径
-resume_from_checkpoint="/root/autodl-fs/data2/models/ChatGLM/PromptCBLUE-ChatGLM-6b-lora-2e-4/checkpoint-3500"  # 如果之前训练过，且存储了模型权重，则设置为模型权重的文件夹路径
+peft_path="/root/autodl-fs/data2/models/ChatGLM/PromptCBLUE-ChatGLM-6b-lora-2e-4/checkpoint-3500"  # 如果之前训练过，且存储了peft权重，则设置为peft权重的文件夹路径
+resume_from_checkpoint="/root/autodl-fs/data2/models/ChatGLM/PromptCBLUE-ChatGLM-6b-lora-2e-4/checkpoint-3500"
 
 CUDA_VISIBLE_DEVICES=0 python src/ft_chatglm_lora/main.py \
     --do_train \
@@ -18,14 +18,14 @@ CUDA_VISIBLE_DEVICES=0 python src/ft_chatglm_lora/main.py \
     --prompt_column input \
     --response_column target \
     --model_name_or_path $model_name_or_path \
-    --output_dir $your_checkpoint_path/PromptCBLUE-ChatGLM-6b-lora-$LR \
+    --output_dir $your_checkpoint_path/PromptCBLUE-ChatGLM-6b-lora-$LR-checkpoint-3500 \
     --overwrite_output_dir \
     --max_source_length 828 \
     --max_target_length 196 \
     --per_device_train_batch_size 4 \
     --per_device_eval_batch_size 4 \
     --gradient_accumulation_steps 2 \
-    --max_steps 5000 \
+    --max_steps 1500 \
     --logging_steps 10 \
     --save_steps 100 \
     --learning_rate $LR \
@@ -36,8 +36,8 @@ CUDA_VISIBLE_DEVICES=0 python src/ft_chatglm_lora/main.py \
     --fp16 \
     --preprocessing_num_workers 12 \
     --report_to wandb \
+    --peft_path $peft_path \
     --resume_from_checkpoint $resume_from_checkpoint
-
     # --max_train_samples 5000 \
 
 
