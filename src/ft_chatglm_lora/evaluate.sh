@@ -3,13 +3,14 @@ lora_trainable="query_key_value,dense,dense_h_to_4h,dense_4h_to_h"
 modules_to_save="null"
 lora_dropout=0.1
 LR=2e-4
-model_name_or_path="./models--THUDM--chatglm-6b/snapshots/a8ede826cf1b62bd3c78bdfb3625c7c5d2048fbd"   # LLM底座模型路径，或者是huggingface hub上的模型名称
-your_data_path="./datasets/PromptCBLUE/toy_examples"  # 填入数据集所在的文件夹路径
-CHECKPOINT="./experiments/outputs/PromptCBLUE-chatglm-6b-lora-2e-4"   # 填入用来存储模型的文件夹路径
+model_name_or_path="/root/autodl-fs/data2/root/.cache/modelscope/hub/models--THUDM--ChatGLM-6B/snapshots/bf0f5cfb575eebebf9b655c5861177acfee03f16"   # LLM底座模型路径，或者是huggingface hub上的模型名称
+your_data_path="./datasets/PromptCBLUE/trains"  # 填入数据集所在的文件夹路径
 
-STEP=10    # 用来评估的模型checkpoint是训练了多少步
+CHECKPOINT="/root/autodl-fs/data2/models/ChatGLM/PromptCBLUE-ChatGLM-6b-lora-2e-4"   # 填入用来存储模型的文件夹路径
 
-CUDA_VISIBLE_DEVICES=3 python src/ft_chatglm_lora/main.py \
+STEP=5000    # 用来评估的模型checkpoint是训练了多少步
+
+CUDA_VISIBLE_DEVICES=0 python src/ft_chatglm_lora/main.py \
     --do_predict \
     --validation_file $your_data_path/dev.json \
     --test_file $your_data_path/test.json \
@@ -23,7 +24,7 @@ CUDA_VISIBLE_DEVICES=3 python src/ft_chatglm_lora/main.py \
     --overwrite_output_dir \
     --max_source_length 828 \
     --max_target_length 196 \
-    --per_device_eval_batch_size 8 \
+    --per_device_eval_batch_size 16 \
     --predict_with_generate
 
 #     --do_eval \
